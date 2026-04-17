@@ -32,7 +32,7 @@ Création de tables et vues agrégées pour optimiser les performances de la par
 | **Doublons d'offres** | Utilisation de `ROW_NUMBER()` pour garantir l'unicité par `job_id`. |
 | **Espaces invisibles** | Application de la fonction `TRIM()` pour les filtres et les jointures SQL. |
 | **Erreurs de syntaxe SQL** | Remplacement des guillemets simples par des doubles guillemets pour les noms de colonnes. |
-| **ImportError (Python)** | Installation des packages `matplotlib` et `plotly` dans l'environnement Snowflake. |
+| **ImportError (Python)** | Installation des packages `matplotlib` dans l'environnement Snowflake. |
 | **Erreur de mapping** | Correction de la colonne `COMPANY_NAME` qui contenait en réalité le `COMPANY_ID`. |
 
 ---
@@ -872,11 +872,9 @@ Le graphique en donut permet de comprendre si le marché professionnel est domin
 Le premier filtre permet d’intégrer plusieurs critères en même temps et de les isoler selon les données à afficher souhaitées. L’histogramme complète cela en démontrant si les salaires sont regroupés (donc que nous sommes dans un marché homogène) ou un marché connaissant des disparités.
 
 ## Aspects techniques et fonctions utilisées :
-Afin de pouvoir générer d’autres charts que ceux à colonnes, la bibliothèque Plotly a été intégrée à l’application. Cela permet à l’utilisateur de pouvoir survoler une barre afin d’en visualiser la valeur exacte. Et également de pouvoir contrôler et choisir la couleur d’affichage afin de garder un aspect visuel professionnel.
+L’application s’appuie sur la bibliothèque Altair, choisie pour sa performance et sa capacité à générer des visualisations interactives de haute qualité. Cette intégration permet à l’utilisateur de survoler chaque segment des graphiques pour consulter les valeurs exactes via des info-bulles dynamiques (tooltips). De plus, Altair offre un contrôle précis sur le design et les schémas de couleurs, garantissant un rendu visuel à la fois moderne et professionnel.
 
 Dans le code Python, l’utilisation de la fonction TRIM permet de venir supprimer tous les espaces inutiles afin d’être sûr que la comparaison fonctionne tout le temps. L’utilisation de .replace est utilisée pour l’insertion de variables Python dans les requêtes SQL. Cela permet d’éviter les erreurs de syntaxe si, par exemple, une apostrophe est présente dans un nom d’entreprise.
-
-Altair a été importé comme package. Altair permet d’élargir la création des graphiques et d’améliorer la visualisation finale des données.
 
 L’interface est rendue flexible par l’utilisation de st.tabs et st.columns. Cela évite le scroll de la page à l’infini et donne donc accès à l’information qui l’intéresse directement.
 
