@@ -1,4 +1,4 @@
-Projet : LinkedIn Job Market Analysis Dashboard
+#### Projet : LinkedIn Job Market Analysis Dashboard
 
 Ce projet présente une architecture de données complète sur **Snowflake** et une application **Streamlit** pour analyser les tendances du marché de l'emploi LinkedIn en 2026.
 
