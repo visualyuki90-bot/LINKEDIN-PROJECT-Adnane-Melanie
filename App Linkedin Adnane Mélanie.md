@@ -1,4 +1,4 @@
-#### Projet : LinkedIn Job Market Analysis Dashboard
+## Projet : LinkedIn Job Market Analysis Dashboard
 
 Ce projet présente une architecture de données complète sur **Snowflake** et une application **Streamlit** pour analyser les tendances du marché de l'emploi LinkedIn en 2026.
 
@@ -8,17 +8,17 @@ Ce projet présente une architecture de données complète sur **Snowflake** et 
 
 Les données sont organisées en trois étapes afin de garantir leur qualité pour l’utilisation par la suite.
 
-## Couche Bronze
+#### Couche Bronze
 Importation des données brutes au format `.JSON` et `.CSV` depuis un stage S3 vers Snowflake. Les données sont stockées telles qu’elles arrivent pour conserver l'historique brut.
 
-## Couche Argent (Silver)
+#### Couche Argent (Silver)
 Nettoyage de différentes données brutes :
 * **Typage et conversion** : Utilisation de `TRY_TO_NUMBER` et `TRY_CAST` afin d’éviter les erreurs de conversion des données et garantir qu'elles soient utilisables.
 * **Gestion temporelle** : Transformation des timestamps Unix en formats date/heure lisibles.
 * **Traitement des valeurs nulles** et filtrage des offres incomplètes.
 * **Dédoublonnage** : Suppression des doublons pour assurer l'unicité des offres.
 
-## Couche Or (Gold)
+#### Couche Or (Gold)
 Création de tables et vues agrégées pour optimiser les performances de la partie applicative et rendre l’application bien plus rapide :
 * **Tables de rapport** : Top titres et salaires déjà calculés par industrie.
 * **Logique métier** : Utilisation des fonctions `QUALIFY` et `ROW_NUMBER` afin de dédoublonner les entreprises présentes dans plusieurs catégories de secteurs et n'en garder qu'une seule principale.
@@ -36,7 +36,7 @@ Création de tables et vues agrégées pour optimiser les performances de la par
 | **Erreur de mapping** | Correction de la colonne `COMPANY_NAME` qui contenait en réalité le `COMPANY_ID`. |
 
 ---
-Script SQL Complet
+## Script SQL Complet
 ```sql
 <details>
 <summary>Cliquez pour voir le code SQL (Bronze/Silver/Gold)</summary>
@@ -312,7 +312,7 @@ FROM LINKEDIN.GOLD.REPORT_JOBS_BY_WORK_TYPE;
 </details>
 ```
 
-### Application Streamlit (Code Python)
+## Application Streamlit (Code Python)
 
 L'application utilise **Snowpark** pour interroger Snowflake et **Altair** pour une visualisation haute performance.
 
@@ -845,33 +845,33 @@ with tab6:
 st.divider()
 st.caption("MBAESG — Architecture Big Data • Snowflake + Streamlit • Données LinkedIn")
 ```
-### Commentaires explicatifs pour la réalisation du code Python et de la génération du Streamlit
-## Les résultats obtenus
+## Commentaires explicatifs pour la réalisation du code Python et de la génération du Streamlit
+### Les résultats obtenus
 Vue décisionnelle large sur le marché de l’emploi.
-## À travers les visualisations utilisées, cela permet de :
+### À travers les visualisations utilisées, cela permet de :
 
 Rendre la lecture des données beaucoup plus claire et compréhensible.
 
 Partir du global à une vue plus détaillée. L’expérience utilisateur est donc améliorée car seuls les éléments pertinents sont affichés.
 
-## Les KPI affichés permettent de connaître directement :
+### Les KPI affichés permettent de connaître directement :
 Le total d’offres et d’entreprises uniques.
 
 La fonction % Remote sert à mesurer la flexibilité du marché et donc d’afficher le nombre d’offres proposées.
 
 Enfin, le salaire moyen permet d’offrir aux recruteurs et candidats potentiels un point de repère direct.
 
-### Analyse par onglets
-## Concernant les onglets 1 et 2 : Affichage des tendances par industries
+## Analyse par onglets
+### Concernant les onglets 1 et 2 : Affichage des tendances par industries
 La création du graphique ALTAIR permet de montrer les métiers dominant chaque secteur. Dans l’onglet 2, on vient identifier les postes ayant la valeur ajoutée la plus importante par industrie, et donc d’identifier les secteurs les plus intéressants.
 
-## Puis pour les onglets 3, 4 et 5 : La structure des entreprises et les contrats
+### Puis pour les onglets 3, 4 et 5 : La structure des entreprises et les contrats
 Le graphique en donut permet de comprendre si le marché professionnel est dominé par les PME ou les Grands Groupes. Et le graphique à barres empilées donne à l’utilisateur une mise en commun intéressante entre le type de contrat et les possibilités de travail (remote par exemple).
 
-## Et enfin pour l’onglet 6 : Exploration libre et dynamique
+### Et enfin pour l’onglet 6 : Exploration libre et dynamique
 Le premier filtre permet d’intégrer plusieurs critères en même temps et de les isoler selon les données à afficher souhaitées. L’histogramme complète cela en démontrant si les salaires sont regroupés (donc que nous sommes dans un marché homogène) ou un marché connaissant des disparités.
 
-### Aspects techniques et fonctions utilisées :
+## Aspects techniques et fonctions utilisées :
 Afin de pouvoir générer d’autres charts que ceux à colonnes, la bibliothèque Plotly a été intégrée à l’application. Cela permet à l’utilisateur de pouvoir survoler une barre afin d’en visualiser la valeur exacte. Et également de pouvoir contrôler et choisir la couleur d’affichage afin de garder un aspect visuel professionnel.
 
 Dans le code Python, l’utilisation de la fonction TRIM permet de venir supprimer tous les espaces inutiles afin d’être sûr que la comparaison fonctionne tout le temps. L’utilisation de .replace est utilisée pour l’insertion de variables Python dans les requêtes SQL. Cela permet d’éviter les erreurs de syntaxe si, par exemple, une apostrophe est présente dans un nom d’entreprise.
